@@ -1,3 +1,7 @@
+/* UserAccount Test Data INSERT */
+INSERT INTO user_account(user_id, user_password, nickname, email, memo, created_at, created_by, modified_at, modified_by)
+VALUES ('cheesecup', 'qwer1234', 'Chiz', 'cheesecup@gmail.com', 'Hello, I am chiz', now(), 'cheesecup', now(), 'cheesecup');
+
 /* Article Test Data INSERT */
 INSERT INTO article(title, content, created_by, modified_by, created_at, modified_at)
 VALUES ('first title', 'first content by cheesecup', 'cheesecup', 'cheesecup', '2021-05-30 23:53:46', '2021-07-10 08:48:50');
