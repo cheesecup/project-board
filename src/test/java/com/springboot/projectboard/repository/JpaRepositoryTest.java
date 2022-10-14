@@ -2,10 +2,10 @@ package com.springboot.projectboard.repository;
 
 import com.springboot.projectboard.config.JpaConfig;
 import com.springboot.projectboard.domain.Article;
+import com.springboot.projectboard.domain.UserAccount;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
@@ -23,11 +23,14 @@ class JpaRepositoryTest {
 
     private final ArticleRepository articleRepository;
     private final ArticleCommentRepository articleCommentRepository;
+    private final UserAccountRepository userAccountRepository;
 
     public JpaRepositoryTest(@Autowired ArticleRepository articleRepository,
-                      @Autowired ArticleCommentRepository articleCommentRepository) {
+                             @Autowired ArticleCommentRepository articleCommentRepository,
+                             @Autowired UserAccountRepository userAccountRepository) {
         this.articleRepository = articleRepository;
         this.articleCommentRepository = articleCommentRepository;
+        this.userAccountRepository = userAccountRepository;
     }
 
     @Test
@@ -45,14 +48,16 @@ class JpaRepositoryTest {
     @Test
     @DisplayName("insert 테스트")
     void givenTestData_whenInserting_thenWorksFine() {
-        //given
+        // Given
         long previousCount = articleRepository.count();
-        Article article = Article.of("new title", "new content", "new hashtag");
+        UserAccount userAccount = userAccountRepository.save(UserAccount.of("newUno", "pw", null, null, null));
+        Article article = Article.of(userAccount, "new article", "new content", "#spring");
 
-        //when
-        Article savedArticle = articleRepository.save(article);
 
-        //then
+        // When
+        articleRepository.save(article);
+
+        // Then
         assertThat(articleRepository.count()).isEqualTo(previousCount + 1);
     }
 
